@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IVYPulse</title>
+<meta name="description" content="IVYPulse: health data dashboards and research by Jennifer Gideon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a left-aligned ledger. Each project is a row: a narrow facts column
+   (type, status, tool, source) beside a wide column with the story and a preview slot. */
+:root {
+  --bg: #F2F5F1;
+  --surface: #FFFFFF;
+  --ink: #13201A;
+  --muted: #4A5C53;
+  --line: #CFD9D1;
+  --ivy: #1E5A41;
+  --ivy-soft: #DCEBE2;
+  --pulse: #B4233F;
+  --on-ivy: #FFFFFF;
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", "Segoe UI", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --wrap: 1080px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1A15;
+    --surface: #17251E;
+    --ink: #E6EEE8;
+    --muted: #A3B5AA;
+    --line: #2C3F35;
+    --ivy: #7CC79C;
+    --ivy-soft: #1D3328;
+    --pulse: #FF8394;
+    --on-ivy: #0F1A15;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1A15;
+  --surface: #17251E;
+  --ink: #E6EEE8;
+  --muted: #A3B5AA;
+  --line: #2C3F35;
+  --ivy: #7CC79C;
+  --ivy-soft: #1D3328;
+  --pulse: #FF8394;
+  --on-ivy: #0F1A15;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--ivy); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--pulse); outline-offset: 3px; border-radius: 4px; }
+.wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 20px; }
+
+.skip {
+  position: absolute; left: 16px; top: -60px;
+  background: var(--ivy); color: var(--on-ivy);
+  padding: 10px 16px; border-radius: 6px; font-weight: 600; text-decoration: none; z-index: 10;
+}
+.skip:focus { top: 12px; }
+
+/* Header */
+.site-header { border-bottom: 1px solid var(--line); }
+.site-header .wrap {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 8px 24px; padding-top: 16px; padding-bottom: 16px;
+}
+.wordmark {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.375rem;
+  color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
+}
+.wordmark span { color: var(--ivy); }
+.site-nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0; padding: 0; }
+.site-nav a { color: var(--ink); text-decoration: none; font-weight: 500; padding: 8px 2px; display: inline-block; }
+.site-nav a:hover { text-decoration: underline; text-decoration-color: var(--ivy); text-decoration-thickness: 2px; }
+
+/* Hero */
+.hero { padding: 56px 0 40px; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.hero h1 { font-size: clamp(2.25rem, 6vw, 4rem); font-weight: 700; letter-spacing: -0.025em; margin-top: 14px; max-width: 16ch; }
+.hero .lede { margin-top: 20px; max-width: 60ch; font-size: 1.1875rem; color: var(--muted); }
+.pulse-line { display: block; width: 100%; height: 56px; margin-top: 36px; }
+.pulse-line path { fill: none; stroke: var(--pulse); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.pulse-line line { stroke: var(--line); stroke-width: 1; }
+.pulse-line .trace { opacity: 0.3; }
+.pulse-line .beat { stroke-width: 3; stroke-dasharray: 16 84; stroke-dashoffset: 100; animation: beat 3.2s linear infinite; }
+@keyframes beat { to { stroke-dashoffset: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .pulse-line .trace { opacity: 1; }
+  .pulse-line .beat { display: none; animation: none; }
+}
+
+/* Work section */
+.work { padding: 24px 0 64px; }
+.section-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 24px; }
+.section-head h2 { font-size: clamp(1.625rem, 3.4vw, 2.25rem); font-weight: 700; letter-spacing: -0.015em; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.filters button {
+  font: inherit; font-weight: 500; font-size: 0.9375rem;
+  padding: 8px 16px; min-height: 44px;
+  border: 1.5px solid var(--ivy); border-radius: 999px;
+  background: transparent; color: var(--ivy); cursor: pointer;
+}
+.filters button:hover { background: var(--ivy-soft); }
+.filters button[aria-pressed="true"] { background: var(--ivy); color: var(--on-ivy); }
+.count { margin-top: 10px; color: var(--muted); font-size: 0.9375rem; }
+
+.projects { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 20px; }
+.project {
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  display: grid; grid-template-columns: 240px minmax(0, 1fr);
+}
+.project[hidden] { display: none; }
+.facts { padding: 24px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 16px; }
+.type { font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ivy); font-weight: 500; }
+.status {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.875rem; font-weight: 600; padding: 4px 12px; border-radius: 999px;
+}
+.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; }
+.status.done { background: var(--ivy); color: var(--on-ivy); }
+.status.done::before { background: var(--on-ivy); }
+.status.progress { border: 1.5px solid var(--muted); color: var(--ink); }
+.status.progress::before { border: 2px solid var(--muted); width: 9px; height: 9px; }
+.facts dl { margin: 0; display: grid; gap: 12px; }
+.facts dt { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.facts dd { margin: 2px 0 0; font-size: 0.9375rem; line-height: 1.4; }
+
+.story { padding: 24px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.story h3 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
+.story p { max-width: 65ch; }
+.figures { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 28px; }
+.figures li { display: flex; flex-direction: column; }
+.figures b { font-family: var(--font-display); font-size: 1.625rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.figures span { font-size: 0.875rem; color: var(--muted); }
+.points { margin: 0; padding-left: 1.1em; max-width: 65ch; display: grid; gap: 6px; }
+.slot {
+  border: 2px dashed var(--line); border-radius: 8px; padding: 20px;
+  color: var(--muted); font-size: 0.9375rem; background: var(--bg);
+}
+.slot strong { color: var(--ink); display: block; font-weight: 600; }
+
+/* About */
+.about { border-top: 1px solid var(--line); padding: 56px 0; }
+.about .wrap { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 32px 56px; }
+.about h2 { font-size: clamp(1.625rem, 3.4vw, 2.25rem); font-weight: 700; letter-spacing: -0.015em; }
+.about p { margin-top: 16px; max-width: 62ch; }
+.tools h3 { font-size: 1.125rem; font-weight: 700; }
+.tools ul { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.tools li { font-family: var(--font-mono); font-size: 0.875rem; padding: 4px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+.tools h3 + ul + h3 { margin-top: 28px; }
+.tools p { margin-top: 10px; font-size: 0.9375rem; }
+
+.site-footer { border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--muted); font-size: 0.9375rem; }
+.site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+
+@media (max-width: 760px) {
+  .hero { padding: 36px 0 28px; }
+  .project { grid-template-columns: minmax(0, 1fr); }
+  .facts { border-right: 0; border-bottom: 1px solid var(--line); }
+  .facts dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .about .wrap { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="#top" id="top">IVY<span>Pulse</span></a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="#work">Dashboards and research</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <p class="eyebrow">Health data dashboards and research</p>
+      <h1 id="hero-title">Health data, reported in plain language.</h1>
+      <p class="lede">IVYPulse collects the dashboards and research of Jennifer Gideon, a clinician turned health data analyst. The work covers hospital quality, birth outcomes, diabetes risk, and employer tuition benefits.</p>
+      <svg class="pulse-line" viewBox="0 0 1040 56" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <line x1="0" y1="34" x2="1040" y2="34"></line>
+        <path class="trace" d="M0 34 H300 l10 -6 l10 6 h18 l8 10 l12 -40 l12 46 l8 -16 h22 l12 -10 l14 10 H620 l10 -6 l10 6 h18 l8 10 l12 -40 l12 46 l8 -16 h22 l12 -10 l14 10 H1040"></path>
+        <path class="beat" pathLength="100" d="M0 34 H300 l10 -6 l10 6 h18 l8 10 l12 -40 l12 46 l8 -16 h22 l12 -10 l14 10 H620 l10 -6 l10 6 h18 l8 10 l12 -40 l12 46 l8 -16 h22 l12 -10 l14 10 H1040"></path>
+      </svg>
+    </div>
+  </section>
+
+  <section class="work" id="work" aria-labelledby="work-title">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="work-title">Dashboards and research</h2>
+        <div class="filters" role="group" aria-label="Filter projects by type">
+          <button type="button" id="filter-all" data-filter="all" aria-pressed="true">All</button>
+          <button type="button" id="filter-dashboard" data-filter="dashboard" aria-pressed="false">Dashboards</button>
+          <button type="button" id="filter-research" data-filter="research" aria-pressed="false">Research</button>
+        </div>
+      </div>
+      <p class="count" id="count" role="status" aria-live="polite">Showing all 4 projects</p>
+
+      <ul class="projects">
+        <li class="project" data-type="dashboard">
+          <div class="facts">
+            <p class="type">Dashboard</p>
+            <p class="status done">Complete</p>
+            <dl>
+              <div><dt>Tool</dt><dd>Tableau</dd></div>
+              <div><dt>Data source</dt><dd>CMS Care Compare</dd></div>
+              <div><dt>Team</dt><dd>2 people</dd></div>
+            </dl>
+          </div>
+          <div class="story">
+            <h3>Hospital Choice Dashboard</h3>
+            <p>Compares acute care hospitals with the national rate on safety, mortality, and readmissions, so a reader can see how a hospital performs without knowing the measures.</p>
+            <ul class="figures">
+              <li><b>952</b><span>acute care hospitals</span></li>
+              <li><b>5</b><span>states</span></li>
+              <li><b>3</b><span>quality measure groups</span></li>
+            </ul>
+            <ul class="points">
+              <li>Defines a mortality performance category where CMS provides none, with explicit rules for better, same, and worse than the national rate.</li>
+              <li>Reports results in plain language.</li>
+              <li>Shows hospitals with no result instead of dropping them.</li>
+            </ul>
+            <div class="slot"><strong>Placeholder: live Tableau dashboard</strong>The interactive dashboard, or a screenshot that links to it, goes here.</div>
+          </div>
+        </li>
+
+        <li class="project" data-type="research">
+          <div class="facts">
+            <p class="type">Research</p>
+            <p class="status progress">In progress</p>
+            <dl>
+              <div><dt>Format</dt><dd>Trend charts, dashboard, recommendations brief</dd></div>
+              <div><dt>Data source</dt><dd>CDC WONDER natality data</dd></div>
+              <div><dt>Team</dt><dd>Individual capstone</dd></div>
+            </dl>
+          </div>
+          <div class="story">
+            <h3>Medicaid Expansion and the Black–White Preterm Birth Gap</h3>
+            <p>Describes how preterm birth rates differ by maternal race in states that expanded Medicaid and in states used for comparison.</p>
+            <ul class="figures">
+              <li><b>2016–2024</b><span>years of birth data</span></li>
+              <li><b>2</b><span>expansion states</span></li>
+              <li><b>7</b><span>comparison states</span></li>
+            </ul>
+            <ul class="points">
+              <li>Revised from a causal to a descriptive design after data checks showed the comparison groups were trending differently, so conclusions match the strength of the evidence.</li>
+              <li>The brief will state what the evidence shows, who could act, and what measure would show improvement.</li>
+            </ul>
+            <div class="slot"><strong>Placeholder: trend charts and brief</strong>The charts, dashboard, and a link to the recommendations brief go here.</div>
+          </div>
+        </li>
+
+        <li class="project" data-type="research">
+          <div class="facts">
+            <p class="type">Research</p>
+            <p class="status progress">In progress</p>
+            <dl>
+              <div><dt>Format</dt><dd>Analysis-ready dataset and risk model</dd></div>
+              <div><dt>Data source</dt><dd>CDC BRFSS 2023</dd></div>
+              <div><dt>Team</dt><dd>4 people</dd></div>
+            </dl>
+          </div>
+          <div class="story">
+            <h3>Diabetes and Prediabetes Risk Prediction</h3>
+            <p>Identifies which clinical and socioeconomic factors predict diabetes risk among U.S. adults, starting from a national CDC survey.</p>
+            <ul class="figures">
+              <li><b>433,323</b><span>U.S. adults surveyed</span></li>
+            </ul>
+            <ul class="points">
+              <li>Builds an analysis-ready dataset with documented handling of missing data.</li>
+            </ul>
+            <div class="slot"><strong>Placeholder: findings</strong>Key results, charts, and a link to the write-up go here.</div>
+          </div>
+        </li>
+
+        <li class="project" data-type="dashboard">
+          <div class="facts">
+            <p class="type">Dashboard</p>
+            <p class="status progress">In progress</p>
+            <dl>
+              <div><dt>Tool</dt><dd>Power BI</dd></div>
+              <div><dt>Setting</dt><dd>University of North Texas, Executive &amp; Professional Learning</dd></div>
+              <div><dt>Role</dt><dd>Lead</dd></div>
+            </dl>
+          </div>
+          <div class="story">
+            <h3>Tuition Benefit Data Initiative</h3>
+            <p>Research and dashboard development on employer tuition benefits, built on a classification framework and data model defined for the project.</p>
+            <ul class="figures">
+              <li><b>180</b><span>companies in the dataset</span></li>
+            </ul>
+            <ul class="points">
+              <li>Defines a classification framework and data model for the company dataset.</li>
+            </ul>
+            <div class="slot"><strong>Placeholder: Power BI dashboard</strong>A screenshot or embedded report goes here, if the data can be shared publicly.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="about" id="about" aria-labelledby="about-title">
+    <div class="wrap">
+      <div>
+        <h2 id="about-title">About</h2>
+        <p>Jennifer Gideon is a clinician turned health data analyst, completing a Master of Science in Health Data Analytics at the University of North Texas in December 2026. She holds a Bachelor of Human Kinetics from the University of British Columbia.</p>
+        <p>Before analytics she worked as a kinesiologist, providing direct patient care within an interdisciplinary team. That experience shapes how she reports data: for clinicians, leaders, and non-technical staff who need to act on it.</p>
+      </div>
+      <div class="tools">
+        <h3>Tools</h3>
+        <ul>
+          <li>Tableau</li><li>Power BI</li><li>SQL</li><li>Python</li><li>R</li><li>Excel</li>
+        </ul>
+        <h3>Contact</h3>
+        <p>Placeholder: add the email address or profile link you want visitors to use.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>IVYPulse. Dashboards and research by Jennifer Gideon.</p>
+    <p>Prototype. Dashed boxes mark content still to add.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var buttons = document.querySelectorAll('.filters button');
+  var projects = document.querySelectorAll('.project');
+  var count = document.getElementById('count');
+  var labels = { all: 'projects', dashboard: 'dashboards', research: 'research projects' };
+  function apply(filter) {
+    var shown = 0;
+    projects.forEach(function (p) {
+      var match = filter === 'all' || p.getAttribute('data-type') === filter;
+      p.hidden = !match;
+      if (match) shown++;
+    });
+    buttons.forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-filter') === filter ? 'true' : 'false');
+    });
+    count.textContent = filter === 'all'
+      ? 'Showing all ' + shown + ' projects'
+      : 'Showing ' + shown + ' ' + labels[filter];
+  }
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.getAttribute('data-filter')); });
+  });
+})();
+</script>
+</body>
+</html>

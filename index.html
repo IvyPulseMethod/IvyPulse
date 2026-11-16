@@ -8,6 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('ivypulse-theme');
+    if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+})();
+</script>
 <style>
 /* Layout idea: a left-aligned ledger. Each project is a row: a narrow facts column
    (type, status, tool, source) beside a wide column with the story and a preview slot. */
@@ -90,6 +98,12 @@ a:hover { text-decoration-thickness: 2px; }
   color: var(--ink); text-decoration: none; letter-spacing: -0.01em;
 }
 .wordmark span { color: var(--ivy); }
+.site-nav { margin-left: auto; }
+.theme-toggle {
+  font: inherit; font-size: 0.9375rem; font-weight: 500; min-height: 44px; padding: 8px 14px;
+  border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--ink); cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--ivy); }
 .site-nav ul { list-style: none; display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0; padding: 0; }
 .site-nav a { color: var(--ink); text-decoration: none; font-weight: 500; padding: 8px 2px; display: inline-block; }
 .site-nav a:hover { text-decoration: underline; text-decoration-color: var(--ivy); text-decoration-thickness: 2px; }
@@ -112,6 +126,9 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* Work section */
 .work { padding: 24px 0 64px; }
+.work > .wrap > h2 { font-size: clamp(1.625rem, 3.4vw, 2.25rem); font-weight: 700; letter-spacing: -0.015em; }
+.work + .work { padding-top: 0; }
+.section-note { margin-top: 10px; color: var(--muted); max-width: 60ch; }
 .section-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 24px; }
 .section-head h2 { font-size: clamp(1.625rem, 3.4vw, 2.25rem); font-weight: 700; letter-spacing: -0.015em; }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -153,6 +170,8 @@ a:hover { text-decoration-thickness: 2px; }
 .figures li { display: flex; flex-direction: column; }
 .figures b { font-family: var(--font-display); font-size: 1.625rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.1; }
 .figures span { font-size: 0.875rem; color: var(--muted); }
+.takeaway { max-width: 65ch; padding: 12px 16px; border-left: 4px solid var(--pulse); background: var(--bg); border-radius: 0 6px 6px 0; font-weight: 600; }
+.takeaway.todo { border-left-style: dashed; border-left-color: var(--line); font-weight: 400; color: var(--muted); }
 .points { margin: 0; padding-left: 1.1em; max-width: 65ch; display: grid; gap: 6px; }
 .slot {
   border: 2px dashed var(--line); border-radius: 8px; padding: 20px;
@@ -168,9 +187,31 @@ a:hover { text-decoration-thickness: 2px; }
 .tools h3 { font-size: 1.125rem; font-weight: 700; }
 .tools ul { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .tools li { font-family: var(--font-mono); font-size: 0.875rem; padding: 4px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
-.tools h3 + ul + h3 { margin-top: 28px; }
+.tools h3:not(:first-child) { margin-top: 28px; }
+.tools .plain { display: grid; gap: 6px; }
+.tools .plain li { font-family: var(--font-body); font-size: 0.9375rem; padding: 0; border: 0; background: none; overflow-wrap: anywhere; }
+.tools .todo { color: var(--muted); }
 .tools p { margin-top: 10px; font-size: 0.9375rem; }
 
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.teaser { margin-top: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.teaser h3 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; }
+.teaser p { max-width: 65ch; }
+.teaser-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.button { display: inline-block; background: var(--ivy); color: var(--on-ivy); font-weight: 600; text-decoration: none; padding: 10px 18px; border-radius: 999px; min-height: 44px; }
+.button:hover { text-decoration: underline; }
+.page-head { padding: 44px 0 8px; }
+.page-head h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.02em; margin-top: 10px; }
+.page-head p { margin-top: 12px; color: var(--muted); max-width: 60ch; }
+.resume { max-width: 820px; padding-bottom: 64px; }
+.resume section { margin-top: 36px; }
+.resume h2 { font-size: 1.25rem; font-weight: 700; padding-bottom: 8px; border-bottom: 2px solid var(--ivy); }
+.resume .entry { margin-top: 18px; }
+.resume .entry-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px; }
+.resume .entry-head span { color: var(--muted); font-size: 0.9375rem; font-variant-numeric: tabular-nums; }
+.resume ul { margin: 8px 0 0; padding-left: 1.1em; display: grid; gap: 6px; }
+.resume section > p { margin-top: 12px; }
+.resume .contact-line { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 12px; overflow-wrap: anywhere; }
 .site-footer { border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--muted); font-size: 0.9375rem; }
 .site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
 
@@ -191,10 +232,13 @@ a:hover { text-decoration-thickness: 2px; }
     <a class="wordmark" href="#top" id="top">IVY<span>Pulse</span></a>
     <nav class="site-nav" aria-label="Main">
       <ul>
-        <li><a href="#work">Dashboards and research</a></li>
+        <li><a href="completed-work.html" target="_blank" rel="noopener">Completed work<span class="vh"> (opens in a new tab)</span></a></li>
+        <li><a href="#in-progress">In progress</a></li>
         <li><a href="#about">About</a></li>
+        <li><a href="resume.html" target="_blank" rel="noopener">Resume<span class="vh"> (opens in a new tab)</span></a></li>
       </ul>
     </nav>
+    <button type="button" class="theme-toggle" id="theme-toggle">Dark theme</button>
   </div>
 </header>
 
@@ -203,7 +247,7 @@ a:hover { text-decoration-thickness: 2px; }
     <div class="wrap">
       <p class="eyebrow">Health data dashboards and research</p>
       <h1 id="hero-title">Health data, reported in plain language.</h1>
-      <p class="lede">IVYPulse collects the dashboards and research of Jennifer Gideon, a clinician turned health data analyst. The work covers hospital quality, birth outcomes, diabetes risk, and employer tuition benefits.</p>
+      <p class="lede">IVYPulse collects the dashboards and research of Jennifer Gideon, a clinician turned health data analyst. The work covers hospital quality, birth outcomes, and diabetes risk.</p>
       <svg class="pulse-line" viewBox="0 0 1040 56" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <line x1="0" y1="34" x2="1040" y2="34"></line>
         <path class="trace" d="M0 34 H300 l10 -6 l10 6 h18 l8 10 l12 -40 l12 46 l8 -16 h22 l12 -10 l14 10 H620 l10 -6 l10 6 h18 l8 10 l12 -40 l12 46 l8 -16 h22 l12 -10 l14 10 H1040"></path>
@@ -212,53 +256,31 @@ a:hover { text-decoration-thickness: 2px; }
     </div>
   </section>
 
-  <section class="work" id="work" aria-labelledby="work-title">
+  <section class="work" id="completed" aria-labelledby="completed-title">
     <div class="wrap">
-      <div class="section-head">
-        <h2 id="work-title">Dashboards and research</h2>
-        <div class="filters" role="group" aria-label="Filter projects by type">
-          <button type="button" id="filter-all" data-filter="all" aria-pressed="true">All</button>
-          <button type="button" id="filter-dashboard" data-filter="dashboard" aria-pressed="false">Dashboards</button>
-          <button type="button" id="filter-research" data-filter="research" aria-pressed="false">Research</button>
-        </div>
+      <h2 id="completed-title">Completed work</h2>
+      <div class="teaser">
+        <div class="teaser-meta"><p class="type">Dashboard</p><p class="status done">Complete</p></div>
+        <h3>Hospital Choice Dashboard</h3>
+        <p>Compares 952 acute care hospitals in five states with the national rate on safety, mortality, and readmissions.</p>
+        <a class="button" href="completed-work.html" target="_blank" rel="noopener">View completed work<span class="vh"> (opens in a new tab)</span></a>
       </div>
-      <p class="count" id="count" role="status" aria-live="polite">Showing all 4 projects</p>
+    </div>
+  </section>
 
+  <section class="work" id="in-progress" aria-labelledby="in-progress-title">
+    <div class="wrap">
+      <h2 id="in-progress-title">In progress</h2>
+      <p class="section-note">Projects I'm working on now. Results will be added as each one finishes.</p>
       <ul class="projects">
-        <li class="project" data-type="dashboard">
-          <div class="facts">
-            <p class="type">Dashboard</p>
-            <p class="status done">Complete</p>
-            <dl>
-              <div><dt>Tool</dt><dd>Tableau</dd></div>
-              <div><dt>Data source</dt><dd>CMS Care Compare</dd></div>
-              <div><dt>Team</dt><dd>2 people</dd></div>
-            </dl>
-          </div>
-          <div class="story">
-            <h3>Hospital Choice Dashboard</h3>
-            <p>Compares acute care hospitals with the national rate on safety, mortality, and readmissions, so a reader can see how a hospital performs without knowing the measures.</p>
-            <ul class="figures">
-              <li><b>952</b><span>acute care hospitals</span></li>
-              <li><b>5</b><span>states</span></li>
-              <li><b>3</b><span>quality measure groups</span></li>
-            </ul>
-            <ul class="points">
-              <li>Defines a mortality performance category where CMS provides none, with explicit rules for better, same, and worse than the national rate.</li>
-              <li>Reports results in plain language.</li>
-              <li>Shows hospitals with no result instead of dropping them.</li>
-            </ul>
-            <div class="slot"><strong>Placeholder: live Tableau dashboard</strong>The interactive dashboard, or a screenshot that links to it, goes here.</div>
-          </div>
-        </li>
-
         <li class="project" data-type="research">
           <div class="facts">
             <p class="type">Research</p>
-            <p class="status progress">In progress</p>
+            <p class="status progress">Capstone: finalizing brief</p>
             <dl>
               <div><dt>Format</dt><dd>Trend charts, dashboard, recommendations brief</dd></div>
               <div><dt>Data source</dt><dd>CDC WONDER natality data</dd></div>
+              <div><dt>Methods</dt><dd>Difference-in-differences design check (parallel trends), stratification by maternal race, descriptive policy evaluation</dd></div>
               <div><dt>Team</dt><dd>Individual capstone</dd></div>
             </dl>
           </div>
@@ -270,6 +292,7 @@ a:hover { text-decoration-thickness: 2px; }
               <li><b>2</b><span>expansion states</span></li>
               <li><b>7</b><span>comparison states</span></li>
             </ul>
+            <p class="takeaway">Key takeaway: the comparison states were already trending differently, so the data can describe the Black–White gap but cannot show that expansion changed it.</p>
             <ul class="points">
               <li>Revised from a causal to a descriptive design after data checks showed the comparison groups were trending differently, so conclusions match the strength of the evidence.</li>
               <li>The brief will state what the evidence shows, who could act, and what measure would show improvement.</li>
@@ -281,10 +304,11 @@ a:hover { text-decoration-thickness: 2px; }
         <li class="project" data-type="research">
           <div class="facts">
             <p class="type">Research</p>
-            <p class="status progress">In progress</p>
+            <p class="status progress">Building dataset</p>
             <dl>
               <div><dt>Format</dt><dd>Analysis-ready dataset and risk model</dd></div>
               <div><dt>Data source</dt><dd>CDC BRFSS 2023</dd></div>
+              <div><dt>Methods</dt><dd>Predictive modeling, feature engineering, documented missing-data handling</dd></div>
               <div><dt>Team</dt><dd>4 people</dd></div>
             </dl>
           </div>
@@ -294,33 +318,11 @@ a:hover { text-decoration-thickness: 2px; }
             <ul class="figures">
               <li><b>433,323</b><span>U.S. adults surveyed</span></li>
             </ul>
+            <p class="takeaway todo">Placeholder: key takeaway to add once the modeling results are in.</p>
             <ul class="points">
               <li>Builds an analysis-ready dataset with documented handling of missing data.</li>
             </ul>
             <div class="slot"><strong>Placeholder: findings</strong>Key results, charts, and a link to the write-up go here.</div>
-          </div>
-        </li>
-
-        <li class="project" data-type="dashboard">
-          <div class="facts">
-            <p class="type">Dashboard</p>
-            <p class="status progress">In progress</p>
-            <dl>
-              <div><dt>Tool</dt><dd>Power BI</dd></div>
-              <div><dt>Setting</dt><dd>University of North Texas, Executive &amp; Professional Learning</dd></div>
-              <div><dt>Role</dt><dd>Lead</dd></div>
-            </dl>
-          </div>
-          <div class="story">
-            <h3>Tuition Benefit Data Initiative</h3>
-            <p>Research and dashboard development on employer tuition benefits, built on a classification framework and data model defined for the project.</p>
-            <ul class="figures">
-              <li><b>180</b><span>companies in the dataset</span></li>
-            </ul>
-            <ul class="points">
-              <li>Defines a classification framework and data model for the company dataset.</li>
-            </ul>
-            <div class="slot"><strong>Placeholder: Power BI dashboard</strong>A screenshot or embedded report goes here, if the data can be shared publicly.</div>
           </div>
         </li>
       </ul>
@@ -331,8 +333,9 @@ a:hover { text-decoration-thickness: 2px; }
     <div class="wrap">
       <div>
         <h2 id="about-title">About</h2>
-        <p>Jennifer Gideon is a clinician turned health data analyst, completing a Master of Science in Health Data Analytics at the University of North Texas in December 2026. She holds a Bachelor of Human Kinetics from the University of British Columbia.</p>
-        <p>Before analytics she worked as a kinesiologist, providing direct patient care within an interdisciplinary team. That experience shapes how she reports data: for clinicians, leaders, and non-technical staff who need to act on it.</p>
+        <p>I'm Jennifer Gideon, a clinician turned health data analyst. I'm completing a Master of Science in Health Data Analytics at the University of North Texas in December 2026, and I hold a Bachelor of Human Kinetics from the University of British Columbia.</p>
+        <p>Before analytics I worked as a kinesiologist, providing direct patient care within an interdisciplinary team. That experience shapes how I report data: for clinicians, leaders, and non-technical staff who need to act on it.</p>
+        <p>My graduate coursework covers data analytics, data visualization in Tableau, discovery and learning with big data, data storage and management, healthcare finance, managed care, strategic healthcare management, and health services administration, including quality improvement methods. I hold the TCPS 2: CORE research ethics certification.</p>
       </div>
       <div class="tools">
         <h3>Tools</h3>
@@ -340,7 +343,10 @@ a:hover { text-decoration-thickness: 2px; }
           <li>Tableau</li><li>Power BI</li><li>SQL</li><li>Python</li><li>R</li><li>Excel</li>
         </ul>
         <h3>Contact</h3>
-        <p>Placeholder: add the email address or profile link you want visitors to use.</p>
+        <ul class="plain">
+          <li>Email: <a href="mailto:jgideon20@icloud.com">jgideon20@icloud.com</a></li>
+          <li>LinkedIn: <a href="https://www.linkedin.com/in/jgideon01">linkedin.com/in/jgideon01</a></li>
+        </ul>
       </div>
     </div>
   </section>
@@ -355,27 +361,23 @@ a:hover { text-decoration-thickness: 2px; }
 
 <script>
 (function () {
-  var buttons = document.querySelectorAll('.filters button');
-  var projects = document.querySelectorAll('.project');
-  var count = document.getElementById('count');
-  var labels = { all: 'projects', dashboard: 'dashboards', research: 'research projects' };
-  function apply(filter) {
-    var shown = 0;
-    projects.forEach(function (p) {
-      var match = filter === 'all' || p.getAttribute('data-type') === filter;
-      p.hidden = !match;
-      if (match) shown++;
-    });
-    buttons.forEach(function (b) {
-      b.setAttribute('aria-pressed', b.getAttribute('data-filter') === filter ? 'true' : 'false');
-    });
-    count.textContent = filter === 'all'
-      ? 'Showing all ' + shown + ' projects'
-      : 'Showing ' + shown + ' ' + labels[filter];
+  var root = document.documentElement;
+  var btn = document.getElementById('theme-toggle');
+  var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  function current() {
+    var t = root.getAttribute('data-theme');
+    if (t === 'dark' || t === 'light') return t;
+    return mq && mq.matches ? 'dark' : 'light';
   }
-  buttons.forEach(function (b) {
-    b.addEventListener('click', function () { apply(b.getAttribute('data-filter')); });
+  function label() { btn.textContent = current() === 'dark' ? 'Light theme' : 'Dark theme'; }
+  btn.addEventListener('click', function () {
+    var next = current() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('ivypulse-theme', next); } catch (e) {}
+    label();
   });
+  if (mq && mq.addEventListener) mq.addEventListener('change', label);
+  label();
 })();
 </script>
 </body>

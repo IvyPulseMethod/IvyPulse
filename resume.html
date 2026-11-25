@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jennifer Gideon resume</title>
-<meta name="description" content="Resume of Jennifer Gideon, health data analyst.">
+<title>Experience &amp; Background · Jennifer Gideon</title>
+<meta name="description" content="Jennifer Gideon’s route from patient care to health data analytics.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -212,6 +212,81 @@ a:hover { text-decoration-thickness: 2px; }
 .resume ul { margin: 8px 0 0; padding-left: 1.1em; display: grid; gap: 6px; }
 .resume section > p { margin-top: 12px; }
 .resume .contact-line { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 12px; overflow-wrap: anywhere; }
+/* Experience & Background: a trail of stops plus a Gantt of roles */
+:root { --c-clin: #B4233F; --c-lead: #9A6A12; --c-res: #2B6A9B; --c-data: #1E5A41; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --c-clin: #FF8394; --c-lead: #E3B45C; --c-res: #82B8E3; --c-data: #7CC79C; } }
+:root[data-theme="dark"] { --c-clin: #FF8394; --c-lead: #E3B45C; --c-res: #82B8E3; --c-data: #7CC79C; }
+.site-nav a[aria-current="page"] { text-decoration: underline; text-decoration-color: var(--ivy); text-decoration-thickness: 2px; }
+.trip-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
+.stat b { font-family: var(--font-display); font-size: 2rem; line-height: 1; color: var(--ivy); font-variant-numeric: tabular-nums; }
+.stat span { font-size: 0.9375rem; color: var(--muted); }
+.glance { margin-top: 48px; }
+.glance h2, .journey-wrap h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.015em; }
+.glance-note { margin-top: 8px; color: var(--muted); }
+.gantt-scroll { overflow-x: auto; margin-top: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.gantt { min-width: 720px; padding: 14px 18px 18px; }
+.g-row { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 16px; align-items: center; min-height: 40px; }
+.g-axis { min-height: 24px; }
+.g-ticks { position: relative; height: 20px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.g-ticks span { position: absolute; top: 0; transform: translateX(-2px); }
+.g-lane { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.swatch { width: 10px; height: 10px; border-radius: 3px; }
+.sw-clin, .bar-clin { background: var(--c-clin); } .sw-lead, .bar-lead { background: var(--c-lead); }
+.sw-res, .bar-res { background: var(--c-res); } .sw-data, .bar-data { background: var(--c-data); }
+.g-label { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.g-role { font-weight: 600; font-size: 0.9375rem; }
+.g-org { font-size: 0.8125rem; color: var(--muted); }
+.g-track { position: relative; height: 26px; background-image: repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px calc(100% / 11)); }
+.g-bar { position: absolute; top: 6px; height: 14px; min-width: 8px; border-radius: 7px; }
+.g-bar.ongoing { border-radius: 7px 0 0 7px; -webkit-mask-image: linear-gradient(to right, #000 70%, transparent); mask-image: linear-gradient(to right, #000 70%, transparent); }
+.journey-wrap { margin-top: 56px; padding-bottom: 72px; }
+.journey { list-style: none; margin: 24px 0 0; padding: 0; position: relative; display: grid; gap: 28px; }
+.journey::before { content: ""; position: absolute; left: 21px; top: 10px; bottom: 10px; border-left: 3px dashed var(--line); }
+.journey::after { content: ""; position: absolute; left: 18px; top: 10px; width: 9px; height: 60px; border-radius: 5px; background: linear-gradient(to bottom, transparent, var(--pulse), transparent); animation: walk 6s linear infinite; }
+@keyframes walk { from { transform: translateY(0); } to { transform: translateY(calc(var(--trail, 2400px))); opacity: 0.4; } }
+@media (prefers-reduced-motion: reduce) { .journey::after { display: none; } }
+.stop { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 18px; position: relative; }
+.pin { width: 46px; height: 46px; border-radius: 50%; background: var(--surface); border: 3px solid var(--pc, var(--ivy)); display: grid; place-items: center; position: relative; z-index: 1; transition: transform 0.2s; }
+.pin svg { width: 22px; height: 22px; fill: none; stroke: var(--pc, var(--ivy)); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.stop:hover .pin { transform: scale(1.08); }
+@media (prefers-reduced-motion: reduce) { .pin { transition: none; } .stop:hover .pin { transform: none; } }
+.s-clin { --pc: var(--c-clin); } .s-lead { --pc: var(--c-lead); } .s-data { --pc: var(--c-data); } .s-fork, .s-next { --pc: var(--muted); }
+.s-next .pin { border-style: dashed; }
+.stop-card { background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--pc, var(--ivy)); border-radius: 10px; padding: 20px 22px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.s-fork .stop-card { border-top-width: 1px; border-style: dashed; background: transparent; }
+.stop-meta { font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.04em; color: var(--muted); }
+.stop-card h3 { font-size: 1.375rem; font-weight: 700; letter-spacing: -0.01em; }
+.stop-intro { max-width: 65ch; }
+.here-badge { align-self: flex-start; font-size: 0.8125rem; font-weight: 700; color: var(--on-ivy); background: var(--c-data); padding: 3px 10px; border-radius: 999px; }
+.stop-role { border-top: 1px solid var(--line); padding-top: 12px; }
+.stop-role-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 16px; }
+.stop-role-head span { font-size: 0.875rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stop-role ul { margin: 6px 0 0; padding-left: 1.1em; display: grid; gap: 4px; max-width: 70ch; }
+.milestone { background: var(--bg); border: 1px solid var(--line); border-left: 4px solid var(--c-res); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.milestone-tag { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-res); font-weight: 500; }
+.growth { list-style: none; margin: 4px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.growth li { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border-radius: 6px; background: var(--surface); position: relative; }
+.growth li:not(:last-child)::after { content: "→"; position: absolute; right: -9px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+.growth b { font-family: var(--font-display); font-size: 1.375rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.growth span { font-size: 0.8125rem; color: var(--muted); line-height: 1.3; }
+.pack { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; border-top: 1px dashed var(--line); padding-top: 12px; }
+.pack-label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+.pack ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.pack li { font-size: 0.8125rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--pc, var(--line)); }
+.next-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.next-addr { font-size: 0.875rem; color: var(--muted); }
+@media (max-width: 760px) {
+  .trip-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .growth { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .growth li:not(:last-child)::after { display: none; }
+}
+@media (max-width: 480px) {
+  .stop { grid-template-columns: 34px minmax(0, 1fr); gap: 12px; }
+  .pin { width: 34px; height: 34px; } .pin svg { width: 16px; height: 16px; }
+  .journey::before { left: 15px; } .journey::after { left: 12px; }
+  .stop-card { padding: 16px; }
+}
 .site-footer { border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--muted); font-size: 0.9375rem; }
 .site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
 
@@ -234,7 +309,7 @@ a:hover { text-decoration-thickness: 2px; }
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="in-progress.html">In progress</a></li>
-        <li><a href="resume.html">Resume</a></li>
+        <li><a href="resume.html" aria-current="page">Experience &amp; Background</a></li>
       </ul>
     </nav>
     <button type="button" class="theme-toggle" id="theme-toggle">Dark theme</button>
@@ -243,94 +318,140 @@ a:hover { text-decoration-thickness: 2px; }
 
 <main id="main">
   <div class="page-head">
-    <div class="wrap resume" style="padding-bottom:0">
-      <p class="eyebrow">Resume</p>
-      <h1>Jennifer Gideon</h1>
-      <p class="contact-line"><span>Dallas, TX</span><a href="mailto:jgideon20@icloud.com">jgideon20@icloud.com</a><a href="https://www.linkedin.com/in/jgideon01">linkedin.com/in/jgideon01</a></p>
+    <div class="wrap">
+      <p class="eyebrow">Experience &amp; Background</p>
+      <h1>From patient care to health data</h1>
+      <p>Ten years, three cities, and one change of direction. Here’s the route from a high school track team in Calgary to health data analytics in Texas.</p>
     </div>
   </div>
-  <div class="wrap resume">
-      <section aria-labelledby="r-summary">
-        <h2 id="r-summary">Professional summary</h2>
-        <p>Clinician turned health data analyst, completing an MS in Health Data Analytics (December 2026). Direct patient care experience within an interdisciplinary team, with clinical documentation in an electronic medical record. Graduate training in quality improvement methods, data collection, and reporting, applied in projects on hospital safety, mortality, and readmission measures and on birth outcomes. Experienced at turning data into clear reports for clinicians, leaders, and non-technical staff.</p>
-      </section>
-      <section aria-labelledby="r-education">
-        <h2 id="r-education">Education</h2>
-        <p><strong>Master of Science, Health Data Analytics</strong>, University of North Texas</p>
-        <p>Coursework: Health Services Administration, Strategic Healthcare Management, Managed Care, Healthcare Finance, Data Analytics, Data Visualization (Tableau), Discovery and Learning with Big Data, Data Storage &amp; Management. Included quality improvement methods.</p>
-        <p><strong>Bachelor of Human Kinetics</strong>, University of British Columbia</p>
-      </section>
-      <section aria-labelledby="r-experience">
-        <h2 id="r-experience">Professional experience</h2>
-        <div class="entry">
-          <div class="entry-head"><p><strong>Graduate Assistant, Executive &amp; Professional Learning</strong>, University of North Texas</p><span>Sept 2025 – Present</span></div>
-          <ul>
-            <li>Collect, clean, and analyze enrollment data to monitor program performance, and prepare regular reports for program leaders across open-enrollment and corporate-partnership tracks.</li>
-            <li>Lead research and Power BI dashboard development for an internal data initiative, defining a classification framework and data model.</li>
-          </ul>
+
+  <section class="wrap trip-stats" aria-label="The trip in numbers">
+    <div class="stat"><b>10</b><span>years since the first stop, in 2016</span></div>
+    <div class="stat"><b>3</b><span>cities: Calgary, Kelowna, and Denton</span></div>
+    <div class="stat"><b>4</b><span>sites Wellness Wave grew to</span></div>
+    <div class="stat"><b>5+</b><span>disciplines coordinated on one care team</span></div>
+  </section>
+
+  <section class="wrap glance" aria-labelledby="glance-title">
+    <h2 id="glance-title">The route at a glance</h2>
+    <p class="glance-note">Each bar is one role, from start date to end date, grouped by the kind of work.</p>
+      <div class="gantt-scroll">
+      <div class="gantt">
+        <div class="g-row g-axis" aria-hidden="true"><div></div><div class="g-ticks"><span style="left:0.00%">2016</span><span style="left:9.09%">2017</span><span style="left:18.18%">2018</span><span style="left:27.27%">2019</span><span style="left:36.36%">2020</span><span style="left:45.45%">2021</span><span style="left:54.55%">2022</span><span style="left:63.64%">2023</span><span style="left:72.73%">2024</span><span style="left:81.82%">2025</span><span style="left:90.91%">2026</span></div></div>
+        <div class="g-lane" role="presentation"><span class="swatch sw-clin" aria-hidden="true"></span>Clinical &amp; patient care</div>
+        <div class="g-row">
+          <div class="g-label"><span class="g-role">Sports Medicine Trainer</span><span class="g-org">Western Canada High School</span></div>
+          <div class="g-track"><span class="g-bar bar-clin" style="left:0.76%;width:21.97%" title="Sports Medicine Trainer, Feb 2016 to Jun 2018"></span><span class="vh">Feb 2016 to Jun 2018</span></div>
         </div>
-        <div class="entry">
-          <div class="entry-head"><p><strong>Kinesiologist</strong>, Interactive Health Physiotherapy &amp; Country Hills Physiotherapy</p><span>Jan 2025 – Aug 2025</span></div>
-          <ul>
-            <li>Provided direct patient care for a caseload of 10–15 patients, including functional capacity assessments and treatment planning (85% WCB/MVC insurance claimants).</li>
-            <li>Documented assessments, progress, and recommendations in the Jane electronic medical record, meeting care-team and insurer requirements.</li>
-            <li>Collaborated across 5+ disciplines (physiotherapy, massage therapy, chiropractic, family medicine), ensuring findings were tracked and shared accurately across the care team.</li>
-            <li>Communicated findings and recommendations to providers, employers, and insurers.</li>
-          </ul>
+        <div class="g-row">
+          <div class="g-label"><span class="g-role">Patient Experience Coordinator</span><span class="g-org">Interactive Health Physiotherapy</span></div>
+          <div class="g-track"><span class="g-bar bar-clin" style="left:80.30%;width:3.03%" title="Patient Experience Coordinator, Nov 2024 to Feb 2025"></span><span class="vh">Nov 2024 to Feb 2025</span></div>
         </div>
-        <div class="entry">
-          <div class="entry-head"><p><strong>Patient Experience Coordinator</strong>, Interactive Health Physiotherapy</p><span>Nov 2024 – Feb 2025</span></div>
-          <ul>
-            <li>Reviewed and reconciled patient claim files for accuracy, identifying discrepancies and coordinating resolution with providers and external agencies.</li>
-          </ul>
+        <div class="g-row">
+          <div class="g-label"><span class="g-role">Kinesiologist</span><span class="g-org">Two Calgary physiotherapy clinics</span></div>
+          <div class="g-track"><span class="g-bar bar-clin" style="left:81.82%;width:6.06%" title="Kinesiologist, Jan 2025 to Aug 2025"></span><span class="vh">Jan 2025 to Aug 2025</span></div>
         </div>
-        <div class="entry">
-          <div class="entry-head"><p><strong>Research Assistant</strong>, University of British Columbia</p><span>Jan 2024 – May 2024</span></div>
-          <ul>
-            <li>Conducted structured literature reviews, synthesizing current evidence to inform program and curriculum development.</li>
-            <li>Collaborated within an interdisciplinary team to translate research findings into actionable recommendations.</li>
-          </ul>
+        <div class="g-lane" role="presentation"><span class="swatch sw-lead" aria-hidden="true"></span>Leadership &amp; service</div>
+        <div class="g-row">
+          <div class="g-label"><span class="g-role">Residence Advisor</span><span class="g-org">University of British Columbia</span></div>
+          <div class="g-track"><span class="g-bar bar-lead" style="left:42.42%;width:6.06%" title="Residence Advisor, Sep 2020 to Apr 2021"></span><span class="vh">Sep 2020 to Apr 2021</span></div>
         </div>
-        <div class="entry">
-          <div class="entry-head"><p><strong>Member, President's Non-Academic Misconduct Committee</strong>, University of British Columbia</p><span>Sept 2020 – Apr 2024</span></div>
-          <ul>
-            <li>Assessed case documentation against university policy standards and produced formal written recommendations to the University President's Office.</li>
-          </ul>
+        <div class="g-row">
+          <div class="g-label"><span class="g-role">Misconduct Committee Member</span><span class="g-org">University of British Columbia</span></div>
+          <div class="g-track"><span class="g-bar bar-lead" style="left:42.42%;width:33.33%" title="Misconduct Committee Member, Sep 2020 to Apr 2024"></span><span class="vh">Sep 2020 to Apr 2024</span></div>
         </div>
-      </section>
-      <section aria-labelledby="r-projects">
-        <h2 id="r-projects">Quality and outcomes projects</h2>
-        <div class="entry">
-          <div class="entry-head"><p><strong>Hospital Choice Dashboard</strong>, CMS Care Compare</p><span>Team of 2</span></div>
-          <ul>
-            <li>Analyzed CMS quality measures for safety, mortality, and readmissions across 952 acute care hospitals in five states, comparing each hospital with the national rate.</li>
-            <li>Defined a mortality performance category where CMS provides none, with explicit rules for better, same, and worse than the national rate.</li>
-            <li>Built an interactive Tableau dashboard that reports results in plain language and shows hospitals with no result instead of dropping them.</li>
-          </ul>
+        <div class="g-row">
+          <div class="g-label"><span class="g-role">Program Resource Advisor</span><span class="g-org">University of British Columbia</span></div>
+          <div class="g-track"><span class="g-bar bar-lead" style="left:51.52%;width:6.06%" title="Program Resource Advisor, Sep 2021 to Apr 2022"></span><span class="vh">Sep 2021 to Apr 2022</span></div>
         </div>
-        <div class="entry">
-          <div class="entry-head"><p><strong>Medicaid Expansion and the Black–White Preterm Birth Gap</strong>, CDC WONDER</p><span>Individual capstone</span></div>
-          <ul>
-            <li>Analyzing preterm birth rates by maternal race using CDC WONDER natality data (2016–2024) for two expansion states and seven comparison states.</li>
-            <li>Revised the study from a causal to a descriptive design after data checks showed the comparison groups were trending differently, so conclusions match the strength of the evidence.</li>
-            <li>Preparing trend charts, a dashboard, and a recommendations brief stating what the evidence shows, who could act, and what measure would show improvement.</li>
-          </ul>
+        <div class="g-lane" role="presentation"><span class="swatch sw-res" aria-hidden="true"></span>Research &amp; programs</div>
+        <div class="g-row">
+          <div class="g-label"><span class="g-role">Wellness Wave, Co-Creator</span><span class="g-org">University of British Columbia</span></div>
+          <div class="g-track"><span class="g-bar bar-res" style="left:69.70%;width:6.06%" title="Wellness Wave, Co-Creator, Sep 2023 to Apr 2024"></span><span class="vh">Sep 2023 to Apr 2024</span></div>
         </div>
-        <div class="entry">
-          <div class="entry-head"><p><strong>Diabetes and Prediabetes Risk Prediction</strong>, CDC BRFSS 2023</p><span>Team of 4</span></div>
-          <ul>
-            <li>Building an analysis-ready dataset from a CDC survey of 433,323 U.S. adults, with documented handling of missing data, to identify which clinical and socioeconomic factors predict diabetes risk.</li>
-          </ul>
+        <div class="g-row">
+          <div class="g-label"><span class="g-role">Research Assistant</span><span class="g-org">University of British Columbia</span></div>
+          <div class="g-track"><span class="g-bar bar-res" style="left:72.73%;width:3.79%" title="Research Assistant, Jan 2024 to May 2024"></span><span class="vh">Jan 2024 to May 2024</span></div>
         </div>
-      </section>
-      <section aria-labelledby="r-skills">
-        <h2 id="r-skills">Skills</h2>
-        <p><strong>Clinical:</strong> direct patient care, patient assessment, clinical documentation (Jane electronic medical record), interdisciplinary care coordination</p>
-        <p><strong>Quality and evidence:</strong> quality improvement methods (coursework), healthcare quality measures, literature review, data collection, status reporting</p>
-        <p><strong>Data and reporting:</strong> Microsoft Excel, Tableau, Power BI, SQL, Python, R</p>
-        <p><strong>Communication:</strong> written recommendations, presenting findings to clinical and non-technical audiences</p>
-      </section>
-  </div>
+        <div class="g-lane" role="presentation"><span class="swatch sw-data" aria-hidden="true"></span>Data &amp; analytics</div>
+        <div class="g-row">
+          <div class="g-label"><span class="g-role">Graduate Assistant</span><span class="g-org">University of North Texas</span></div>
+          <div class="g-track"><span class="g-bar bar-data ongoing" style="left:87.88%;width:11.36%" title="Graduate Assistant, Sep 2025 to present"></span><span class="vh">Sep 2025 to present</span></div>
+        </div>
+      </div>
+      </div>
+  </section>
+
+  <section class="wrap journey-wrap" aria-labelledby="journey-title">
+    <h2 id="journey-title">The journey, stop by stop</h2>
+    <ol class="journey">
+      <li class="stop s-clin">
+        <div class="pin"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 21V4m0 0h10l-2 4 2 4H6"/></svg></div>
+        <div class="stop-card">
+          <p class="stop-meta">2016–2018 · Calgary, AB</p>
+          <h3>Where it started: the sidelines</h3>
+          <p class="stop-intro">My interest in health started on a high school track team, where I served as the team’s sports medicine trainer.</p>
+          <div class="stop-role"><div class="stop-role-head"><p><strong>Sports Medicine Trainer</strong>, Western Canada High School</p><span>Feb 2016 – Jun 2018</span></div><ul><li>Treated athletes’ minor injuries and administered pre-season baseline tests.</li><li>Worked with the head coach to teach athletes about nutrition and hydration.</li></ul></div><div class="pack"><span class="pack-label">Added to the pack</span><ul><li>First Aid (HCP)</li><li>Heads Up concussion training</li><li>Injury care</li><li>Baseline testing</li></ul></div>
+        </div>
+      </li>
+      <li class="stop s-lead">
+        <div class="pin"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 19l6-10 4 6 2-3 6 7H3z"/></svg></div>
+        <div class="stop-card">
+          <p class="stop-meta">2020–2024 · Kelowna, BC</p>
+          <h3>Learning the science, leading on campus</h3>
+          <p class="stop-intro">I earned a Bachelor of Human Kinetics at the University of British Columbia and took on more responsibility outside the classroom along the way.</p>
+          <div class="milestone">
+            <p class="milestone-tag">Milestone</p>
+            <p><strong>Wellness Wave</strong>, Co-Creator &amp; Program Lead · Sep 2023 – Apr 2024</p>
+            <p>A physical activity and wellness program for older adults in residential communities, which I co-created and launched.</p>
+            <ol class="growth" aria-label="How Wellness Wave grew">
+              <li><b>25</b><span>participants at launch</span></li>
+              <li><b>4</b><span>sites across Kelowna</span></li>
+              <li><b>30+</b><span>paid volunteers and staff</span></li>
+              <li><b>UBC</b><span>adopted it as a practicum site</span></li>
+            </ol>
+          </div><div class="stop-role"><div class="stop-role-head"><p><strong>Residence Advisor</strong>, University of British Columbia</p><span>Sep 2020 – Apr 2021</span></div><ul><li>Supported first-year students through academic, personal, and mental health challenges, with mentorship, referrals, and crisis response.</li></ul></div><div class="stop-role"><div class="stop-role-head"><p><strong>Member, President’s Non-Academic Misconduct Committee</strong>, University of British Columbia</p><span>Sep 2020 – Apr 2024</span></div><ul><li>Reviewed evidence, assessed source credibility, and interviewed involved parties.</li><li>Contributed to formal written recommendations to the UBC President’s Office.</li></ul></div><div class="stop-role"><div class="stop-role-head"><p><strong>Program Resource Advisor</strong>, University of British Columbia</p><span>Sep 2021 – Apr 2022</span></div><ul><li>Led a 25-member committee planning athletic and residence programming, including scheduling, budgeting, and marketing.</li></ul></div><div class="stop-role"><div class="stop-role-head"><p><strong>Research Assistant</strong>, University of British Columbia</p><span>Jan 2024 – May 2024</span></div><ul><li>Ran structured literature reviews for a new Health and Exercise Sciences course on climate change and nutrition.</li><li>Summarized population-level evidence for research and program leads.</li></ul></div><div class="pack"><span class="pack-label">Added to the pack</span><ul><li>Literature review</li><li>Program design &amp; evaluation</li><li>Evidence analysis</li><li>Formal reporting</li><li>Budgeting</li><li>Team leadership</li></ul></div>
+        </div>
+      </li>
+      <li class="stop s-clin">
+        <div class="pin"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></div>
+        <div class="stop-card">
+          <p class="stop-meta">Nov 2024 – Aug 2025 · Calgary, AB</p>
+          <h3>On the front line of patient care</h3>
+          <p class="stop-intro">Back in Calgary, I worked in two busy physiotherapy clinics, first on the administrative side and then as a kinesiologist.</p>
+          <div class="stop-role"><div class="stop-role-head"><p><strong>Patient Experience Coordinator</strong>, Interactive Health Physiotherapy</p><span>Nov 2024 – Feb 2025</span></div><ul><li>Managed complex WCB and MVC patient files, billing submissions, and claim timelines.</li><li>Kept accurate, confidential records under privacy legislation and WCB standards.</li></ul></div><div class="stop-role"><div class="stop-role-head"><p><strong>Kinesiologist</strong>, Interactive Health Physiotherapy &amp; Country Hills Physiotherapy</p><span>Jan 2025 – Aug 2025</span></div><ul><li>Managed a daily caseload of 10–15 patients, 85% of them WCB or MVC claimants.</li><li>Ran functional capacity assessments and wrote return-to-work recommendations.</li><li>Coordinated care across 5+ disciplines, from physiotherapy to family medicine.</li></ul></div><div class="pack"><span class="pack-label">Added to the pack</span><ul><li>Clinical documentation</li><li>Functional capacity assessment</li><li>Billing &amp; compliance</li><li>Care coordination</li></ul></div>
+        </div>
+      </li>
+      <li class="stop s-fork">
+        <div class="pin"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21v-7m0 0L6 6m6 8l6-8M6 6V3m12 3V3"/></svg></div>
+        <div class="stop-card">
+          <p class="stop-meta">August 2025</p>
+          <h3>The fork in the trail</h3>
+          <p class="stop-intro">I stepped away from clinical practice to study health data analytics full time.</p>
+          
+        </div>
+      </li>
+      <li class="stop s-data here">
+        <div class="pin"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V10m6 10V4m6 16v-7m4 7H2"/></svg></div>
+        <div class="stop-card">
+          <p class="stop-meta">Sep 2025 – Present · Denton, TX</p>
+          <p class="here-badge">You are here</p>
+          <h3>Building the data toolkit</h3>
+          <p class="stop-intro">I’m completing a Master of Science in Health Data Analytics at the University of North Texas (December 2026) while working as a graduate assistant.</p>
+          <div class="stop-role"><div class="stop-role-head"><p><strong>Graduate Assistant, Executive &amp; Professional Learning</strong>, University of North Texas</p><span>Sep 2025 – Present</span></div><ul><li>Collect, organize, and analyze enrollment data for program performance monitoring and reporting.</li><li>Build Power BI research dashboards and maintain a relational database for an internal research initiative.</li><li>Support the director in planning and promoting professional development programs.</li></ul></div><div class="pack"><span class="pack-label">Added to the pack</span><ul><li>Power BI</li><li>Tableau</li><li>SQL</li><li>Python</li><li>R</li><li>Excel</li><li>Qualtrics</li></ul></div>
+        </div>
+      </li>
+      <li class="stop s-next">
+        <div class="pin"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s-6-6-6-11a6 6 0 0112 0c0 5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg></div>
+        <div class="stop-card">
+          <p class="stop-meta">Next stop</p>
+          <h3>Where to next?</h3>
+          <p class="stop-intro">The next chapter is still being written. If your team works where healthcare and data meet, I’d like to hear from you.</p>
+          <p class="next-links"><a class="button" href="mailto:jgideon20@icloud.com">Email me</a><a href="https://www.linkedin.com/in/jgideon01">Connect on LinkedIn</a></p><p class="next-addr">jgideon20@icloud.com</p>
+        </div>
+      </li>
+    </ol>
+  </section>
 </main>
 
 <footer class="site-footer">
@@ -359,6 +480,13 @@ a:hover { text-decoration-thickness: 2px; }
   });
   if (mq && mq.addEventListener) mq.addEventListener('change', label);
   label();
+})();
+</script>
+<script>
+(function () {
+  var j = document.querySelector('.journey');
+  function size() { if (j) j.style.setProperty('--trail', (j.offsetHeight - 80) + 'px'); }
+  size(); window.addEventListener('resize', size);
 })();
 </script>
 </body>

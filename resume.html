@@ -287,6 +287,22 @@ a:hover { text-decoration-thickness: 2px; }
   .journey::before { left: 15px; } .journey::after { left: 12px; }
   .stop-card { padding: 16px; }
 }
+.countries { margin-top: 28px; }
+.country-card { display: inline-flex; align-items: center; gap: 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 22px 16px 20px; }
+.country-card b { font-family: var(--font-display); font-size: 2.75rem; line-height: 1; color: var(--ivy); }
+.country-title { font-weight: 600; font-size: 1.0625rem; }
+.country-list { margin-top: 4px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; color: var(--muted); font-size: 0.9375rem; }
+.country-list span { display: inline-flex; align-items: center; gap: 6px; }
+.flag { width: 22px; height: 11px; border-radius: 2px; box-shadow: 0 0 0 1px var(--line); }
+.journey-wrap { margin-top: 44px; }
+.journey-note { margin-top: 8px; color: var(--muted); max-width: 60ch; }
+.stop.here .stop-card { border: 2px solid var(--c-data); border-top-width: 6px; background: linear-gradient(var(--ivy-soft), var(--ivy-soft)) top / 100% 0 no-repeat, var(--surface); box-shadow: 0 6px 18px -10px var(--c-data); }
+.stop.here .pin { width: 52px; height: 52px; margin-left: -3px; background: var(--c-data); }
+.stop.here .pin svg { stroke: var(--on-ivy); }
+.pack li.linked { padding: 0; }
+.pack li.linked a { display: inline-block; padding: 3px 10px; border-radius: 999px; color: var(--ivy); font-weight: 600; text-decoration: none; }
+.pack li.linked a:hover { background: var(--ivy-soft); text-decoration: underline; }
+@media (max-width: 480px) { .stop.here .pin { width: 38px; height: 38px; margin-left: -2px; } }
 .site-footer { border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--muted); font-size: 0.9375rem; }
 .site-footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
 
@@ -321,69 +337,23 @@ a:hover { text-decoration-thickness: 2px; }
     <div class="wrap">
       <p class="eyebrow">Experience &amp; Background</p>
       <h1>From patient care to health data</h1>
-      <p>Ten years, three cities, and one change of direction. Here’s the route from a high school track team in Calgary to health data analytics in Texas.</p>
+      <p>A career shaped by healthcare, research, leadership, and a growing interest in using data to solve meaningful problems.</p>
     </div>
   </div>
 
-  <section class="wrap trip-stats" aria-label="The trip in numbers">
-    <div class="stat"><b>10</b><span>years since the first stop, in 2016</span></div>
-    <div class="stat"><b>3</b><span>cities: Calgary, Kelowna, and Denton</span></div>
-    <div class="stat"><b>4</b><span>sites Wellness Wave grew to</span></div>
-    <div class="stat"><b>5+</b><span>disciplines coordinated on one care team</span></div>
-  </section>
-
-  <section class="wrap glance" aria-labelledby="glance-title">
-    <h2 id="glance-title">The route at a glance</h2>
-    <p class="glance-note">Each bar is one role, from start date to end date, grouped by the kind of work.</p>
-      <div class="gantt-scroll">
-      <div class="gantt">
-        <div class="g-row g-axis" aria-hidden="true"><div></div><div class="g-ticks"><span style="left:0.00%">2016</span><span style="left:9.09%">2017</span><span style="left:18.18%">2018</span><span style="left:27.27%">2019</span><span style="left:36.36%">2020</span><span style="left:45.45%">2021</span><span style="left:54.55%">2022</span><span style="left:63.64%">2023</span><span style="left:72.73%">2024</span><span style="left:81.82%">2025</span><span style="left:90.91%">2026</span></div></div>
-        <div class="g-lane" role="presentation"><span class="swatch sw-clin" aria-hidden="true"></span>Clinical &amp; patient care</div>
-        <div class="g-row">
-          <div class="g-label"><span class="g-role">Sports Medicine Trainer</span><span class="g-org">Western Canada High School</span></div>
-          <div class="g-track"><span class="g-bar bar-clin" style="left:0.76%;width:21.97%" title="Sports Medicine Trainer, Feb 2016 to Jun 2018"></span><span class="vh">Feb 2016 to Jun 2018</span></div>
-        </div>
-        <div class="g-row">
-          <div class="g-label"><span class="g-role">Patient Experience Coordinator</span><span class="g-org">Interactive Health Physiotherapy</span></div>
-          <div class="g-track"><span class="g-bar bar-clin" style="left:80.30%;width:3.03%" title="Patient Experience Coordinator, Nov 2024 to Feb 2025"></span><span class="vh">Nov 2024 to Feb 2025</span></div>
-        </div>
-        <div class="g-row">
-          <div class="g-label"><span class="g-role">Kinesiologist</span><span class="g-org">Two Calgary physiotherapy clinics</span></div>
-          <div class="g-track"><span class="g-bar bar-clin" style="left:81.82%;width:6.06%" title="Kinesiologist, Jan 2025 to Aug 2025"></span><span class="vh">Jan 2025 to Aug 2025</span></div>
-        </div>
-        <div class="g-lane" role="presentation"><span class="swatch sw-lead" aria-hidden="true"></span>Leadership &amp; service</div>
-        <div class="g-row">
-          <div class="g-label"><span class="g-role">Residence Advisor</span><span class="g-org">University of British Columbia</span></div>
-          <div class="g-track"><span class="g-bar bar-lead" style="left:42.42%;width:6.06%" title="Residence Advisor, Sep 2020 to Apr 2021"></span><span class="vh">Sep 2020 to Apr 2021</span></div>
-        </div>
-        <div class="g-row">
-          <div class="g-label"><span class="g-role">Misconduct Committee Member</span><span class="g-org">University of British Columbia</span></div>
-          <div class="g-track"><span class="g-bar bar-lead" style="left:42.42%;width:33.33%" title="Misconduct Committee Member, Sep 2020 to Apr 2024"></span><span class="vh">Sep 2020 to Apr 2024</span></div>
-        </div>
-        <div class="g-row">
-          <div class="g-label"><span class="g-role">Program Resource Advisor</span><span class="g-org">University of British Columbia</span></div>
-          <div class="g-track"><span class="g-bar bar-lead" style="left:51.52%;width:6.06%" title="Program Resource Advisor, Sep 2021 to Apr 2022"></span><span class="vh">Sep 2021 to Apr 2022</span></div>
-        </div>
-        <div class="g-lane" role="presentation"><span class="swatch sw-res" aria-hidden="true"></span>Research &amp; programs</div>
-        <div class="g-row">
-          <div class="g-label"><span class="g-role">Wellness Wave, Co-Creator</span><span class="g-org">University of British Columbia</span></div>
-          <div class="g-track"><span class="g-bar bar-res" style="left:69.70%;width:6.06%" title="Wellness Wave, Co-Creator, Sep 2023 to Apr 2024"></span><span class="vh">Sep 2023 to Apr 2024</span></div>
-        </div>
-        <div class="g-row">
-          <div class="g-label"><span class="g-role">Research Assistant</span><span class="g-org">University of British Columbia</span></div>
-          <div class="g-track"><span class="g-bar bar-res" style="left:72.73%;width:3.79%" title="Research Assistant, Jan 2024 to May 2024"></span><span class="vh">Jan 2024 to May 2024</span></div>
-        </div>
-        <div class="g-lane" role="presentation"><span class="swatch sw-data" aria-hidden="true"></span>Data &amp; analytics</div>
-        <div class="g-row">
-          <div class="g-label"><span class="g-role">Graduate Assistant</span><span class="g-org">University of North Texas</span></div>
-          <div class="g-track"><span class="g-bar bar-data ongoing" style="left:87.88%;width:11.36%" title="Graduate Assistant, Sep 2025 to present"></span><span class="vh">Sep 2025 to present</span></div>
-        </div>
+  <section class="wrap countries" aria-label="Experience across 2 countries">
+    <div class="country-card">
+      <b aria-hidden="true">2</b>
+      <div>
+        <p class="country-title">Experience across 2 countries</p>
+        <p class="country-list"><span><svg class="flag" viewBox="0 0 24 12" aria-hidden="true" focusable="false"><rect width="24" height="12" fill="#D52B1E"/><rect x="6" width="12" height="12" fill="#fff"/><path d="M12 2.2l.9 1.8 1-.5-.3 2.1 1.4-1 .3.8 1.2-.3-.6 1.6.6.3-2.4 1.7.3.9-2.1-.3V11h-.6V9.3l-2.1.3.3-.9-2.4-1.7.6-.3-.6-1.6 1.2.3.3-.8 1.4 1-.3-2.1 1 .5z" fill="#D52B1E"/></svg> Canada</span><span aria-hidden="true">·</span><span><svg class="flag" viewBox="0 0 24 12" aria-hidden="true" focusable="false"><rect width="24" height="12" fill="#B22234"/><rect y="0.923" width="24" height="0.923" fill="#fff"/><rect y="2.769" width="24" height="0.923" fill="#fff"/><rect y="4.615" width="24" height="0.923" fill="#fff"/><rect y="6.461" width="24" height="0.923" fill="#fff"/><rect y="8.307" width="24" height="0.923" fill="#fff"/><rect y="10.153" width="24" height="0.923" fill="#fff"/><rect width="10" height="6.46" fill="#3C3B6E"/></svg> United States</span></p>
       </div>
-      </div>
+    </div>
   </section>
 
   <section class="wrap journey-wrap" aria-labelledby="journey-title">
     <h2 id="journey-title">The journey, stop by stop</h2>
+    <p class="journey-note">Every experience has contributed something to the professional I’m becoming.</p>
     <ol class="journey">
       <li class="stop s-clin">
         <div class="pin"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 21V4m0 0h10l-2 4 2 4H6"/></svg></div>
@@ -418,7 +388,7 @@ a:hover { text-decoration-thickness: 2px; }
         <div class="stop-card">
           <p class="stop-meta">Nov 2024 – Aug 2025 · Calgary, AB</p>
           <h3>On the front line of patient care</h3>
-          <p class="stop-intro">Back in Calgary, I worked in two busy physiotherapy clinics, first on the administrative side and then as a kinesiologist.</p>
+          <p class="stop-intro">Returning to Calgary, I gained experience on both sides of healthcare delivery, managing patient administration before moving into clinical practice.</p>
           <div class="stop-role"><div class="stop-role-head"><p><strong>Patient Experience Coordinator</strong>, Interactive Health Physiotherapy</p><span>Nov 2024 – Feb 2025</span></div><ul><li>Managed complex WCB and MVC patient files, billing submissions, and claim timelines.</li><li>Kept accurate, confidential records under privacy legislation and WCB standards.</li></ul></div><div class="stop-role"><div class="stop-role-head"><p><strong>Kinesiologist</strong>, Interactive Health Physiotherapy &amp; Country Hills Physiotherapy</p><span>Jan 2025 – Aug 2025</span></div><ul><li>Managed a daily caseload of 10–15 patients, 85% of them WCB or MVC claimants.</li><li>Ran functional capacity assessments and wrote return-to-work recommendations.</li><li>Coordinated care across 5+ disciplines, from physiotherapy to family medicine.</li></ul></div><div class="pack"><span class="pack-label">Added to the pack</span><ul><li>Clinical documentation</li><li>Functional capacity assessment</li><li>Billing &amp; compliance</li><li>Care coordination</li></ul></div>
         </div>
       </li>
@@ -438,7 +408,7 @@ a:hover { text-decoration-thickness: 2px; }
           <p class="here-badge">You are here</p>
           <h3>Building the data toolkit</h3>
           <p class="stop-intro">I’m completing a Master of Science in Health Data Analytics at the University of North Texas (December 2026) while working as a graduate assistant.</p>
-          <div class="stop-role"><div class="stop-role-head"><p><strong>Graduate Assistant, Executive &amp; Professional Learning</strong>, University of North Texas</p><span>Sep 2025 – Present</span></div><ul><li>Collect, organize, and analyze enrollment data for program performance monitoring and reporting.</li><li>Build Power BI research dashboards and maintain a relational database for an internal research initiative.</li><li>Support the director in planning and promoting professional development programs.</li></ul></div><div class="pack"><span class="pack-label">Added to the pack</span><ul><li>Power BI</li><li>Tableau</li><li>SQL</li><li>Python</li><li>R</li><li>Excel</li><li>Qualtrics</li></ul></div>
+          <div class="stop-role"><div class="stop-role-head"><p><strong>Graduate Assistant, Executive &amp; Professional Learning</strong>, University of North Texas</p><span>Sep 2025 – Present</span></div><ul><li>Collect, organize, and analyze enrollment data to support program performance monitoring and reporting.</li><li>Develop Power BI dashboards and maintain relational datasets for internal research and reporting initiatives.</li><li>Support strategic planning and promotion of professional development programs through cross-functional coordination.</li></ul></div><div class="pack"><span class="pack-label">Added to the pack</span><ul><li>Power BI</li><li class="linked"><a href="index.html#completed" title="See the Hospital Choice Dashboard, built in Tableau">Tableau<span class="vh">: see the Hospital Choice Dashboard</span> <span aria-hidden="true">↗</span></a></li><li>SQL</li><li>Python</li><li>R</li><li>Excel</li><li>Qualtrics</li></ul></div>
         </div>
       </li>
       <li class="stop s-next">
@@ -446,7 +416,7 @@ a:hover { text-decoration-thickness: 2px; }
         <div class="stop-card">
           <p class="stop-meta">Next stop</p>
           <h3>Where to next?</h3>
-          <p class="stop-intro">The next chapter is still being written. If your team is looking for someone who turns complex data into meaningful insights, I’d love to hear from you.</p>
+          <p class="stop-intro">The next chapter is still being written. If your team values thoughtful analysis, clear communication, and turning data into meaningful insights, I’d love to hear from you.</p>
           <p class="next-links"><a class="button" href="mailto:jgideon20@icloud.com">Email me</a><a href="https://www.linkedin.com/in/jgideon01">Connect on LinkedIn</a></p><p class="next-addr">jgideon20@icloud.com</p>
         </div>
       </li>
